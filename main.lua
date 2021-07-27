@@ -1,10 +1,9 @@
 local Point = require 'point'
-require 'funcs'
 
 local planets = {
-  Point.new(15, { 500, 450 }, { 0, 0 }),
-  Point.new(10, { 500, 550 }, { 18, 0 }),
-  Point.new(2, { 500, 50 }, { 15, 0 }),
+  Point.new(1000, { 500, 500 }, { 0, 0 }, true),
+  Point.new(9,    { 500, 120 }, { math.sqrt(1e3 / 400), 0 }),
+  Point.new(2,    { 500, 85  }, { math.sqrt(1e3 / 400) - math.sqrt(11 / 35), 0 }),
 }
 
 function love.load()
@@ -12,23 +11,33 @@ function love.load()
   love.window.setMode(1000, 1000, { resizable = true })
 end
 
+local g = love.graphics
+function wallCollide(v, d, fn)
+  if v[d] - v.radius < 0 or 
+  v[d] + v.radius > g[fn]() then
+    v['v'..d] = -v['v'..d]
+    if     v[d] - v.radius < 0       then v[d] = v.radius
+    elseif v[d] + v.radius > g[fn]() then v[d] = g[fn]() - v.radius
+    end
+  end
+end
+
 function love.update(dt)
-  for i = 1, #planets do
-    local p = planets[i]
-    p.x = p.x + p.vx * dt
-    p.y = p.y + p.vy * dt
+  for i, p in ipairs(planets) do
+    for j, l in ipairs(planets) do
+      if i ~= j then
+        p:influence(l)
+        p:collision(l)
+      end
+      --l.check = false
+    end
 
     wallCollide(p, 'x', 'getWidth')
     wallCollide(p, 'y', 'getHeight')
 
-    influence(planets[2], planets[1])
-
-    for j = 1, #planets do
-      if i ~= j then
-        collision(p, planets[j])
-        --influence(p, planets[j])
-      end
-    end
+    -- TODO: fix * dt bug
+    p.x = p.x + p.vx --* dt
+    p.y = p.y + p.vy --* dt
   end
 end
 

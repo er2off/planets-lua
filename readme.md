@@ -14,3 +14,10 @@ To run, enter in terminal:
 ```sh
 $ love .
 ```
+
+# Porting
+
+This project is platform-independent, so
+you can use any platform to run this demo (pls run at teapot).
+
+All platform-independent code is located in `point.lua`
