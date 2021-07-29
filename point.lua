@@ -70,9 +70,15 @@ function Point:collision(b)
     b.vy + (1 + k) * self.mass / (self.mass + b.mass) * (self.vy - b.vy)
 end
 
-function Point:draw()
+function Point:draw(scCen)
+  if not scCen then scCen = {} end
+  local x, y, s =
+    scCen[1] or 0,
+    scCen[2] or 0,
+    scCen[3] or 1
+
   love.graphics.setColor(self.color)
-  love.graphics.circle('fill', self.x, self.y, self.radius)
+  love.graphics.circle('fill', x + self.x / s, y + self.y / s, self.radius / s)
   love.graphics.setColor(1, 1, 1)
 end
 

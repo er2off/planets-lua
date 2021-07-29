@@ -1,0 +1,29 @@
+* Planets-lua
+
+Planets with orbit, written in Lua
+
+Idea and some code (but on JS) is
+by [[https://github.com/DemetryF][Demetry]].
+
+* Running
+
+Before run, you need to install
+[[https://love2d.org/][Love2D]] (used only for graphics).
+
+To run, enter in terminal:
+#+begin_src sh
+$ love .
+#+end_src
+
+** Controls
+
+To move, use *arrows*.
+
+To scale, use *home* and *end*.
+
+* Porting
+
+This project is platform-independent, so
+you can use any platform to run this demo (pls run at teapot).
+
+All platform-independent code is located in ~point.lua~

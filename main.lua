@@ -1,26 +1,19 @@
 local Point = require 'point'
 
 local planets = {
-  Point.new(1000, { 500, 500 }, { 0, 0 }, true),
-  Point.new(9,    { 500, 120 }, { math.sqrt(1e3 / 400), 0 }),
-  Point.new(2,    { 500, 85  }, { math.sqrt(1e3 / 400) - math.sqrt(11 / 35), 0 }),
+  Point.new(1000, { 375, 375 }, { 0, 0 }, true),
+  Point.new(4,    { 375, 100 }, { math.sqrt(1e3 / 275), 0 }),
+  Point.new(1,    { 375, 85  }, { math.sqrt(1e3 / 275) - math.sqrt(5 / 15), 0 }),
 }
+
+local scCen = {0, 0, 1}
 
 function love.load()
   love.math.setRandomSeed(love.timer.getTime())
   love.window.setMode(1000, 1000, { resizable = true })
 end
 
-local g = love.graphics
-function wallCollide(v, d, fn)
-  if v[d] - v.radius < 0 or 
-  v[d] + v.radius > g[fn]() then
-    v['v'..d] = -v['v'..d]
-    if     v[d] - v.radius < 0       then v[d] = v.radius
-    elseif v[d] + v.radius > g[fn]() then v[d] = g[fn]() - v.radius
-    end
-  end
-end
+local step = 5
 
 function love.update(dt)
   for i, p in ipairs(planets) do
@@ -32,15 +25,24 @@ function love.update(dt)
       --l.check = false
     end
 
-    wallCollide(p, 'x', 'getWidth')
-    wallCollide(p, 'y', 'getHeight')
-
     -- TODO: fix * dt bug
     p.x = p.x + p.vx --* dt
     p.y = p.y + p.vy --* dt
   end
+
+  local pr = love.keyboard.isDown
+
+  -- Moving
+      if pr 'left'  then scCen[1] = scCen[1] - step
+  elseif pr 'right' then scCen[1] = scCen[1] + step
+  elseif pr 'up'    then scCen[2] = scCen[2] + step
+  elseif pr 'down'  then scCen[2] = scCen[2] - step
+  -- Scale
+  elseif pr 'home' then scCen[3] = scCen[3] - 0.01
+  elseif pr 'end'  then scCen[3] = scCen[3] + 0.01
+  end
 end
 
 function love.draw()
-  for i = 1, #planets do planets[i]:draw() end
+  for i = 1, #planets do planets[i]:draw(scCen) end
 end
