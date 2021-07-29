@@ -38,8 +38,8 @@ function love.update(dt)
   elseif pr 'up'    then scCen[2] = scCen[2] + step
   elseif pr 'down'  then scCen[2] = scCen[2] - step
   -- Scale
-  elseif pr 'home' then scCen[3] = scCen[3] - 0.01
-  elseif pr 'end'  then scCen[3] = scCen[3] + 0.01
+  elseif pr 'home' then scCen[3] = scCen[3] - dt
+  elseif pr 'end'  then scCen[3] = scCen[3] + dt
   end
 end
 
