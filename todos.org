@@ -1,0 +1,11 @@
+* TODOS
+
+This file is recommended to read inside Emacs,
+because GitHub have strange org mode support.
+
+** TODO Add interface to manage planets
+
+** TODO Fix * dt bug, it breaks influence and collision
+
+** TODO Replace Love2D random with universal method
+

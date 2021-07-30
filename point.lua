@@ -1,7 +1,8 @@
 local Point = {}
-Point.__index = Point
+Point.__index = Point -- create class
 
-function Point.new(mass, pos, vec, center)
+-- constructor
+function Point.new(mass, pos, vec)
   local self = setmetatable({}, Point)
 
   self.mass = mass
@@ -20,11 +21,10 @@ function Point.new(mass, pos, vec, center)
   }
 
   self.check = true
-  self.center = center
-
   return self
 end
 
+-- Hypotenuse
 function hypot(...)
   local n, args = 0, {...}
 
@@ -34,8 +34,9 @@ function hypot(...)
   return math.sqrt(n)
 end
 
+-- Gravity simulation
 function Point:influence(b)
-  assert(b)
+  assert(b) -- need b
 
   local dx = self.x - b.x
   local dy = self.y - b.y
@@ -45,18 +46,21 @@ function Point:influence(b)
 
   b.vx = b.vx + acc * dx / r
   b.vy = b.vy + acc * dy / r
-
 end
 
-local k = 0.3
+local k = 0.3 -- some number
 
+-- Collision
 function Point:collision(b)
-  assert(b)
+  assert(b) -- need b
 
+  -- return if not check
   if not b.check then return end
 
+  -- return if not collide
   if (self.x - b.x) ^ 2 + (self.y - b.y) ^ 2 >= (self.radius + b.radius) ^ 2 then return end
 
+  -- back
   b.x = b.x - b.vx
   b.y = b.y - b.vy
 
@@ -68,18 +72,6 @@ function Point:collision(b)
     self.vy - (1 + k) * b.mass / (self.mass + b.mass) * (self.vy - b.vy),
     b.vx + (1 + k) * self.mass / (self.mass + b.mass) * (self.vx - b.vx),
     b.vy + (1 + k) * self.mass / (self.mass + b.mass) * (self.vy - b.vy)
-end
-
-function Point:draw(scCen)
-  if not scCen then scCen = {} end
-  local x, y, s =
-    scCen[1] or 0,
-    scCen[2] or 0,
-    scCen[3] or 1
-
-  love.graphics.setColor(self.color)
-  love.graphics.circle('fill', x + self.x / s, y + self.y / s, self.radius / s)
-  love.graphics.setColor(1, 1, 1)
 end
 
 return Point

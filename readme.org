@@ -1,6 +1,8 @@
 * Planets-lua
 
-Planets with orbit, written in Lua
+Planets with orbit, written in Lua.
+
+All code is documented.
 
 Idea and some code (but on JS) is
 by [[https://github.com/DemetryF][Demetry]].
@@ -27,4 +29,4 @@ This project is platform-independent, so
 you can use any platform to run this demo (pls run at teapot).
 
 All platform-independent code is located in ~point.lua~
-except love.math.random for color and draw function.
+except love.math.random for random color.
