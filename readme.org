@@ -23,6 +23,14 @@ To move, use *arrows*.
 
 To scale, use *home* and *end*.
 
+* Screenshots
+
+#+caption: At start
+[[./scr/1.png]]
+
+#+caption: Changed scale and moved
+[[./scr/2.png]]
+
 * Porting
 
 This project is platform-independent, so
