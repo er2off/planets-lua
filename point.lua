@@ -1,6 +1,19 @@
 local Point = {}
 Point.__index = Point -- create class
 
+-- Setters
+function Point:__newindex(k, v)
+  if k == 'mass' then
+    assert(type(v) == 'number')
+    rawset(self, 'mass', math.abs(v))
+    rawset(self, 'radius', math.sqrt(self.mass / math.pi))
+  elseif k == 'radius' then
+    assert(type(v) == 'number')
+    rawset(self, 'radius', math.abs(v))
+    rawset(self, 'mass', self.radius ^ 2)
+  else rawset(self, k, v) end
+end
+
 -- constructor
 function Point.new(mass, pos, vec)
   local self = setmetatable({}, Point)

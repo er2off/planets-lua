@@ -19,9 +19,10 @@ $ love .
 
 ** Controls
 
-To move, use *arrows*.
+To move, by default uses *arrows*.
+To scale uses left *Ctrl* and *Alt*.
 
-To scale, use *home* and *end*.
+To change this, go to ~config.lua~.
 
 * Screenshots
 

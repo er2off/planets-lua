@@ -1,4 +1,5 @@
 local Point = require 'point'
+local conf  = require 'config'
 
 local planets = {
   Point.new(1000, { 375, 375 }, { 0, 0 }),
@@ -6,8 +7,9 @@ local planets = {
   Point.new(1,    { 375, 85  }, { math.sqrt(1e3 / 275) - math.sqrt(5 / 15), 0 }),
 }
 
-local scCen = {0, 0, 1}
-local step  = 5
+local scCen, step, debug, contr =
+  conf.scCen, conf.step,
+  conf.debug, conf.controls
 
 function love.load()                                    -- when love loaded
   love.math.setRandomSeed(love.timer.getTime())         -- random seed
@@ -29,18 +31,18 @@ function love.update(dt)                                -- when update
   end
 
 
-  local pr = love.keyboard.isDown                       -- is button pressed
-  local x, y, s = scCen[1], scCen[2], scCen[3]
+  local kpr =
+    love.keyboard.isDown                                -- keyboard
 
+  local x, y, s = scCen[1], scCen[2], scCen[3]
                                                         -- Moving camera
-      if pr 'left'  then scCen[1] = x - step * s        --<
-  elseif pr 'right' then scCen[1] = x + step * s        -->
-  elseif pr 'up'    then scCen[2] = y + step * s        --^
-  elseif pr 'down'  then scCen[2] = y - step * s        --v
+  if kpr(contr.l)  then scCen[1] = x - step * s end     --<
+  if kpr(contr.r)  then scCen[1] = x + step * s end     -->
+  if kpr(contr.u)  then scCen[2] = y + step * s end     --^
+  if kpr(contr.d)  then scCen[2] = y - step * s end     --v
                                                         -- Scaling camera
-  elseif pr 'home' then scCen[3] = s - dt * s           --+
-  elseif pr 'end'  then scCen[3] = s + dt * s           ---
-  end
+  if kpr(contr.sp) then scCen[3] = s - dt   * s end     --+
+  if kpr(contr.sm) then scCen[3] = s + dt   * s end     ---
 end
 
 function love.draw()                                    -- drawing
@@ -59,5 +61,5 @@ function love.draw()                                    -- drawing
     )
     love.graphics.setColor(1, 1, 1)                    -- reset color
   end
-  love.graphics.print(('%g %g %g'):format(-x, -y, s))
+  if debug then love.graphics.print(('%g %g %g'):format(-x, -y, s)) end
 end
