@@ -30,26 +30,27 @@ function love.update(dt)                                -- when update
 
 
   local pr = love.keyboard.isDown                       -- is button pressed
+  local x, y, s = scCen[1], scCen[2], scCen[3]
 
                                                         -- Moving camera
-      if pr 'left'  then scCen[1] = scCen[1] - step     --<
-  elseif pr 'right' then scCen[1] = scCen[1] + step     -->
-  elseif pr 'up'    then scCen[2] = scCen[2] + step     --^
-  elseif pr 'down'  then scCen[2] = scCen[2] - step     --v
+      if pr 'left'  then scCen[1] = x - step * s        --<
+  elseif pr 'right' then scCen[1] = x + step * s        -->
+  elseif pr 'up'    then scCen[2] = y + step * s        --^
+  elseif pr 'down'  then scCen[2] = y - step * s        --v
                                                         -- Scaling camera
-  elseif pr 'home' then scCen[3] = scCen[3] - dt        --+
-  elseif pr 'end'  then scCen[3] = scCen[3] + dt        ---
+  elseif pr 'home' then scCen[3] = s - dt * s           --+
+  elseif pr 'end'  then scCen[3] = s + dt * s           ---
   end
 end
 
 function love.draw()                                    -- drawing
+  local x, y, s =
+     scCen[1] or 0,
+     scCen[2] or 0,
+     scCen[3] or 1
+
   for i = 1, #planets do
     local self = planets[i]
-    local x, y, s =
-       scCen[1] or 0,
-       scCen[2] or 0,
-       scCen[3] or 1
-
     love.graphics.setColor(self.color)                 -- set planet color
     love.graphics.circle('fill',                       -- fill circle
       x + self.x / s,                                  -- x
@@ -58,4 +59,5 @@ function love.draw()                                    -- drawing
     )
     love.graphics.setColor(1, 1, 1)                    -- reset color
   end
+  love.graphics.print(('%g %g %g'):format(-x, -y, s))
 end
