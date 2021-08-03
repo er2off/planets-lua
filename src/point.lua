@@ -6,11 +6,11 @@ function Point:__newindex(k, v)
   if k == 'mass' then
     assert(type(v) == 'number')
     rawset(self, 'mass', math.abs(v))
-    rawset(self, 'radius', math.sqrt(self.mass / math.pi))
+    rawset(self, 'radius', 5 * math.sqrt(self.mass / math.pi))
   elseif k == 'radius' then
     assert(type(v) == 'number')
     rawset(self, 'radius', math.abs(v))
-    rawset(self, 'mass', self.radius ^ 2)
+    rawset(self, 'mass', (self.radius / 5) ^ 2 * math.pi)
   else rawset(self, k, v) end
 end
 
@@ -19,7 +19,6 @@ function Point.new(mass, pos, vec)
   local self = setmetatable({}, Point)
 
   self.mass = mass
-  self.radius = 5 * math.sqrt(math.abs(self.mass) / math.pi)
 
   self.x = pos[1]
   self.y = pos[2]
@@ -28,9 +27,9 @@ function Point.new(mass, pos, vec)
   self.vy = vec[2]
 
   self.color = {
-    love.math.random(),
-    love.math.random(),
-    love.math.random(),
+    math.random(),
+    math.random(),
+    math.random(),
   }
 
   self.check = true

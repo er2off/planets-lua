@@ -9,8 +9,9 @@ by [[https://github.com/DemetryF][Demetry]].
 
 * Running
 
-Before run, you need to install
-[[https://love2d.org/][Love2D]] (used only for graphics).
+To run this demo without changing,
+you need to install [[https://love2d.org/][Love2D]]
+(current is 11.3).
 
 To run, enter in terminal:
 #+begin_src sh
@@ -19,10 +20,27 @@ $ love .
 
 ** Controls
 
+*** Keyboard
+
 To move, by default uses *arrows*.
 To scale uses left *Ctrl* and *Alt*.
 
 To change this, go to ~config.lua~.
+
+*** Mouse
+
+To move, *hold left key* and move.
+
+To scale, use *mouse wheel*.
+
+*** Touchscreen
+
+To move, *hold finger* and move.
+
+If you have physical menu button (now deprecated on Android),
+you can add scale by key remapping in ~config.lua~
+
+Set ~sp~ as ~menu~ and ~sm~ as ~escape~.
 
 * Screenshots
 
