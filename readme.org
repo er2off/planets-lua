@@ -40,8 +40,13 @@ To move, *hold finger* and move.
 If you have physical menu button (now deprecated on Android),
 you can add scale by key remapping in ~config.lua~
 
-To make this,
-set ~sp = 'menu'~ and ~sm = 'escape'~.
+To make this, set:
+#+begin_src lua
+  controls = {
+    sp = 'menu',    -- was lctrl
+    sm = 'escape',  -- was lalt
+  }
+#+end_src
 
 * Screenshots
 
