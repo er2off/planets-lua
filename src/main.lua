@@ -58,7 +58,7 @@ function love.draw()                                    -- drawing
   local ww, wh = love.window.getMode()
 
   if debug then
-     love.graphics.print(('%g %g %g %d'):format(-x, -y, s, dfig), 0, 0)
+     love.graphics.print(('%g %g %g'):format(-x, -y, s), 0, 0)
      love.graphics.print(('%g %g'):format(ww, wh), 0, 10)
   end
 
