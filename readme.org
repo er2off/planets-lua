@@ -40,7 +40,8 @@ To move, *hold finger* and move.
 If you have physical menu button (now deprecated on Android),
 you can add scale by key remapping in ~config.lua~
 
-Set ~sp~ as ~menu~ and ~sm~ as ~escape~.
+To make this,
+set ~sp = 'menu'~ and ~sm = 'escape'~.
 
 * Screenshots
 
@@ -55,5 +56,5 @@ Set ~sp~ as ~menu~ and ~sm~ as ~escape~.
 This project is platform-independent, so
 you can use any platform to run this demo (pls run at teapot).
 
-All platform-independent code is located in ~point.lua~
-except love.math.random for random color.
+All platform-independent code is located in
+~point.lua~ and ~screen.lua~ files.

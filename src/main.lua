@@ -1,4 +1,5 @@
 local Point = require 'src.point'
+local scr   = require 'src.screen'
 local config= require 'config'
 
 local planets = {
@@ -7,15 +8,11 @@ local planets = {
   Point.new(1,    { 375, 85  }, { math.sqrt(1e3 / 275) - math.sqrt(5 / 15), 0 }),
 }
 
-local debug, scCen, step, contr =
-  config.debug,
-  config.scCen,
-  config.step,
-  config.controls
+screen = scr.new(config.scCen, config.step)
+local contr = config.controls
 
 function love.load()                                    -- when love loade
   love.window.setFullscreen(true)                       -- set fullscreen mode
-  love.keyboard.setKeyRepeat(true)                      -- allow key repeat
 end
 
 function love.update(dt)                                -- when update
@@ -28,51 +25,53 @@ function love.update(dt)                                -- when update
       --l.check = false
     end
 
-    p.x = p.x + p.vx * dt * 55                          -- move x
-    p.y = p.y + p.vy * dt * 55                          -- move y
+    p.x = p.x + p.vx --* dt * 55                        -- move x
+    p.y = p.y + p.vy --* dt * 55                        -- move y
   end
-end
+                                                        -- Keyboard
+  local kpr = love.keyboard.isDown
 
-function love.keypressed(k)                             -- Keyboard
-  local function kpr(y) return k == y end
+  screen:move(                                          -- Moving camera
+    kpr(contr.l),                                       --<
+    kpr(contr.r),                                       -->
+    kpr(contr.u),                                       --^
+    kpr(contr.d)                                        --v
+  )
 
-  local x, y, s = scCen[1], scCen[2], scCen[3]
-                                                        -- Moving camera
-  if kpr(contr.l)  then scCen[1] = x - step * s end     --<
-  if kpr(contr.r)  then scCen[1] = x + step * s end     -->
-  if kpr(contr.u)  then scCen[2] = y + step * s end     --^
-  if kpr(contr.d)  then scCen[2] = y - step * s end     --v
-                                                        -- Scaling camera
-  if kpr(contr.sp) then scCen[3] = s + 0.1 end            --+
-  if kpr(contr.sm) then scCen[3] = s - 0.1 end            ---
+  screen:scale(                                         -- Scale camera
+    kpr(contr.sp),                                      --+
+    kpr(contr.sm)                                       ---
+  )
 end
 
 function love.mousemoved(_, _, dx, dy)                  -- Mouse and touch
   if not love.mouse.isDown(1) then return end
-  scCen[1] = scCen[1] + dx * scCen[3]
-  scCen[2] = scCen[2] + dy * scCen[3]
+  screen:movex(dx, dy)
 end
 
 function love.wheelmoved(_, y)                          -- Mouse wheel
-  scCen[3] = scCen[3] + y
+  screen:scale(y > 0, y < 0)
 end
 
 function love.draw()                                    -- drawing
-  local x, y, s =
-     scCen[1] or 0,
-     scCen[2] or 0,
-     scCen[3] or 1
+  local x, y, s = screen:dimens()
+  local ww, wh = love.window.getMode()
 
-  for i = 1, #planets do
-    local self = planets[i]
-    love.graphics.setColor(self.color)                 -- set planet color
-    love.graphics.circle('fill',                       -- fill circle
-      x + self.x / s,                                  -- x
-      y + self.y / s,                                  -- y
-      self.radius / s                                  -- radius
-    )
-    love.graphics.setColor(1, 1, 1)                    -- reset color
+  if debug then
+     love.graphics.print(('%g %g %g %d'):format(-x, -y, s, dfig), 0, 0)
+     love.graphics.print(('%g %g'):format(ww, wh), 0, 10)
   end
 
-  if debug then love.graphics.print(('%g %g %g'):format(-x, -y, s)) end
+  if s == 0 then return end
+  for i = 1, #planets do
+    local self = planets[i]
+    local fx, fy, fr =
+      x + self.x  * s,
+      y + self.y  * s,
+      self.radius * s
+
+    love.graphics.setColor(self.color)                 -- set planet color
+    love.graphics.circle('fill', fx, fy, fr)           -- draw circle
+    love.graphics.setColor(1, 1, 1)                    -- reset color
+  end
 end

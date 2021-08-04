@@ -1,19 +1,16 @@
 
-This file is needed to read inside Emacs,
-because GitHub have strange org mode support.
+This file is *needed* to read inside _Emacs_,
+because GitHub have /strange/ org mode support.
 
 -----
 
-* DONE Add config
-
-* DONE Replace Love2D random with universal method
-
-* DONE Add touch controls
-
-* DONE Fix * dt bug, it breaks influence and collision
+** DONE Add config
+** DONE Replace Love2D random with universal method
+** DONE Add touch controls
 
 -----
 
-* TODO Add interface to manage planets
+** TODO Fix * dt bug, it breaks influence and collision
+** TODO Add interface to manage planets
 
-* TODO Add on-screen buttons to scale /and move/
+** TODO Add on-screen buttons to scale /and move/
